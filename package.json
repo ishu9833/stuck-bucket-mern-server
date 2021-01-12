@@ -4,6 +4,7 @@
   "description": "We are going to make a shopping bucket. Which is helpfull for anyone who wants to calculate his invests in shopping.",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -14,5 +15,17 @@
     "Morgan"
   ],
   "author": "Ishtiaque",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.11",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "engines": {
+    "node": "15.0.1"
+  }
 }
