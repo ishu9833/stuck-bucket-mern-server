@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
 require("dotenv").config();
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(cors());
@@ -10,7 +11,18 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "../", "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const port = 5000;
+
+mongoose
+  .connect("mongodb://localhost:27017/stack-bucket-mern", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -33,11 +45,11 @@ app.use((error, req, res, next) => {
   }
 
   return res.status(500).json({
-    msg: 'Internal Server Error',
+    msg: "Internal Server Error",
     status: 500,
   });
 });
 
-app.listen(port, () => {
-  console.log("Server Listening on port", port);
+app.listen(process.env.PORT, () => {
+  console.log("Server Listening on port", process.env.PORT);
 });
