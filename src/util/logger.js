@@ -27,7 +27,7 @@ const prodFormat = format.combine(
 let logger = null;
 if (process.env.NODE_ENV === "production") {
   logger = createLogger({
-    level: 'info',
+    level: "info",
     format: prodFormat,
     transports: [
       new transports.File({ filename: "logs/error.log", level: "error" }),
@@ -36,11 +36,16 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   logger = createLogger({
-    level: 'info',
+    level: "info",
     format: devFormat,
-    transports: [new transports.Console()],
+    transports: [
+      new transports.Console({
+        colorize: true,
+        name: "console",
+        timestamp: () => new Date(),
+      }),
+    ],
   });
 }
-
 
 module.exports = logger;
