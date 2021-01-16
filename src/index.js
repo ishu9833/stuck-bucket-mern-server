@@ -1,27 +1,34 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
+const { useMorgan } = require('./middlewares')
 const path = require("path");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const { logger } = require('./util');
+
+
+
 
 const app = express();
+useMorgan(app)
 app.use(cors());
-app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "../", "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
+
 mongoose
-  .connect("mongodb://localhost:27017/stack-bucket-mern", {
+  .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Database connected");
+    logger.info("Database connected");
   })
   .catch((e) => {
     console.log(e);
+    logger.error(e.message)
   });
 
 app.get("/", (req, res) => {
@@ -51,5 +58,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("Server Listening on port", process.env.PORT);
+ logger.info(`Server Listening on port, ${process.env.PORT}`);
 });
