@@ -2,3 +2,5 @@
 
 
 -  [x] an express server created successfully!
+
+-  [x] database connected!
